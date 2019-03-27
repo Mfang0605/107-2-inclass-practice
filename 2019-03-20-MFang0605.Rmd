@@ -58,8 +58,70 @@ typeof(dtObject)
 as.double(dtObject)
 ```
 ```{r}
+library(lubridate)
 Sys.timezone()
 twDateTime <- ymd_hms("2019-03-18 14:04:00", tz="Asia/Taipei")
 class(twDateTime)
 ```
+
+```{r}
+Sys.timezone()
+twDateTime <-ymd_hms("2019-03-27 15:47:52",tz="Asia/Taipei")
+twDateTime
+LisbonDateTime <- with_tz(twDateTime,tzone="Europe/Lisbon")
+LisbonDateTime
+as.double(twDateTime)
+typeof(twDateTime)
+Date <-mdy("March 3,2019",tz="Asia/TAipei")
+Date
+```
+```{r}
+as.integer(ymd("1970-01-01"))
+as.integer(ymd("1970-01-02"))
+as.integer(ymd("2019-03-11"))
+```
+```{r}
+a <- c(1, 5, -3)
+b <- c(0.5, 12, 2)
+aL <- c(1L, 5L, -3L)
+bL <- c(-2L, -4L, 8L)
+a+b
+a %% b
+aL+bL
+aL-bL
+class(a+bL)
+class(aL+bL)
+```
+```{r}
+twDateTime1<- ymd("2019-06-05")
+twDateTime2 <- ymd("2000-06-05")
+twDateTime1-twDateTime2
+class(twDateTime1-twDateTime2)
+```
+```{r}
+startingDate <- ymd("2019-03-30")
+endingDate <-ymd("2019-02-05")
+startingDate - endingDate
+```
+```{r}
+x <- 5
+y <- 7
+x2 <- c(1,5,10)
+y2 <- c(-1,5,20)
+x5 <- c("台北市","新北市","高雄市")
+y5 <- c("台北市","新北市")
+
+x5 %in% y5
+```
+```{r}
+x2 <- c(1,NA,10)
+y2 <- c(-1,NA,20)
+
+x3 <- c(NA,"小花")
+y3 <- c(NA,"小華")
+is.na(x2)
+is.na(x3)
+sum(x2+y2,na.rm = T)
+```
+
 
