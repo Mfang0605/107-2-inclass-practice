@@ -1,0 +1,39 @@
+---
+title: '2019-04-03'
+author: "林美芳"
+date: "3/27/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+library(readr)
+exData2 <- read_csv("https://raw.githubusercontent.com/tpemartin/github-data/master/exData2.csv")
+currency <- exData2$幣別
+
+```
+```{r}
+head(currency)
+```
+```{r}
+levels(currency)
+currency <-as.factor(currency)
+levels(currency)
+```
+```{r}
+length(levels(currency))
+```
+```{r}
+head(currency)
+levels(currency)
+currency2 <- c("日元","美元","日元")
+currency2
+sum(currency2 == "日元")
+```
+```{r}
+head(currency)
+sum(currency == "日圓JPY/USD")
+```
+
