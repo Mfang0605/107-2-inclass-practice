@@ -1,0 +1,20 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(stringr)
+```
+
+```{r}
+course <- c("個體經濟學","投資學","總體經濟學")
+course
+str_sub(course,"經濟學")
+```
+
