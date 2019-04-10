@@ -37,3 +37,116 @@ head(currency)
 sum(currency == "日圓JPY/USD")
 ```
 
+```{r}
+x5 <- c("台北市","新北市","高雄市")
+greatTaipei <-  c("台北市","新北市")
+x5 %in% greatTaipei
+!(x5 %in% greatTaipei)
+```
+```{r}
+y5 <- c("女","男","女")
+y5=="女"
+!(y5=="女")
+```
+
+#想知道向量中第幾筆元素資料為TRUE, 此時可用which()
+```{r}
+x5 %in% greatTaipei
+y5 == "女"
+(x5 %in% greatTaipei)&(y5 == "女")
+which((x5 %in% greatTaipei)&(y5 == "女"))
+```
+```{r}
+x5 %in% greatTaipei
+y5 == "女"
+(x5 %in% greatTaipei) | (y5 == "女") #至少滿足一項
+which((x5 %in% greatTaipei) | (y5 == "女"))
+```
+
+綜合練習
+```{r}
+library(readr)
+exData2 <- read_csv("https://raw.githubusercontent.com/tpemartin/github-data/master/exData2.csv")
+date <- as.character(exData2$期間)
+currency <- exData2$幣別
+exchangeRate <- exData2$匯率
+```
+```{r}
+class(date)
+head(date)
+library(lubridate)
+date <- ymd(date)
+class(date)
+```
+```{r}
+isAfter19800801 <- date >= ymd("1980-08-01")
+isAfter19800801
+
+```
+```{r}
+head(as.integer(date))
+as.integer(ymd("1980-08-01"))
+head(date >= ymd("1980-08-01"))
+class(isAfter19800801)
+sum(isAfter19800801)
+```
+
+
+```{r}
+head(currency)
+head(currency == "歐元USD/EUR")
+isEurope <- currency == "歐元USD/EUR"
+sum(isEurope <- currency == "歐元USD/EUR")
+```
+
+#有多少筆NA要用is.na來判斷
+```{r}
+isExchangeRateNA <- is.na(exchangeRate)
+isExchangeRateNA
+sum(isExchangeRateNA)
+```
+
+```{r}
+isNotNA <- !(is.na(exchangeRate))
+isEurope <- currency == "歐元USD/EUR"
+Both <- isNotNA & isEurope
+sum(Both)
+```
+
+
+```{r}
+library(readr)
+transcriptDataFinal <- read_csv("https://raw.githubusercontent.com/tpemartin/github-data/master/transcriptDataFinal.csv")
+courseType <- transcriptDataFinal$`必選修類別（必∕選∕通）`
+major <- transcriptDataFinal$學系
+studentID <- transcriptDataFinal$學號
+grade <- transcriptDataFinal$學期成績
+```
+
+```{r}
+head(major == "經濟學系")
+sum(major == "經濟學系")
+```
+
+```{r}
+head(studentID == "5bdS6977b")
+sum(studentID == "5bdS6977b")
+```
+
+```{r}
+isgradepass <- grade >= "60"
+head(isgradepass)
+sum(studentID == "5bdS6977b" & isgradepass)
+```
+
+```{r}
+head(major == "經濟學系" & courseType == "選")
+sum(major == "經濟學系" & courseType == "選")
+```
+
+```{r}
+isecoclass <- major == "經濟學系" & courseType == "必"
+isNotPass <- !(grade >= "60")
+sum(isecoclass & isNotPass)
+```
+
