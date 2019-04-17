@@ -22,7 +22,8 @@ library(lubridate)
 ```{r}
 成績單[["個經"]]
 ```
-
+#list裡面物件可以不同
+#c裡面物件需一樣 ex:皆為數字
 ```{r}
 plasticContainer <- list(
   greenBox=c("paper","scissor"),     # location 1
@@ -55,4 +56,31 @@ studentRecord[["姓名"]]
 studentRecord[["學年平均成績"]][[3]]
 ```
 
+#[]代表取出greenBox這個盒子 <- 含paper和scissors
+#[[]]代表取出greenBox的paper和scissors
+
+```{r}
+plasticContainer
+extract1 <- plasticContainer[c("greenBox")]
+extract2 <- plasticContainer[[c("greenBox")]]
+extract1[[1]][[1]]
+extract2[1]
+```
+```{r}
+length(plasticContainer)
+plasticContainer[c(T,F,T)]
+plasticContainer
+```
+```{r}
+成績單
+成績單[c(FALSE,TRUE,TRUE)]
+```
+$.:
+只能用在list vector，且
+只能取「一個」元素，其中
+.一定為「元素名稱」
+```{r}
+plasticContainer$greenBox
+plasticContainer[["greenBox"]]
+```
 
