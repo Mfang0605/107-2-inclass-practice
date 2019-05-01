@@ -86,7 +86,8 @@ studentRecord <-
 
 請將元素名稱「學年平均成績」改成「平均成績」。（此題最後一行請輸入studentRecord，老師改題時會看studentRecord的names有沒有正確更改。）
 ```{r ans11}
-names(studentRecord)[c(4)] <- c("平均成績")
+names(studentRecord)[[4]] <- "平均成績"
+names(studentRecord)
 studentRecord
 ```
 
@@ -155,7 +156,7 @@ allCommitDatesList是個list，請使用`unlist()`函數將它轉成一個atomic
 ```{r ans24}
 allCommitDates <- unlist(allCommitDatesList)
 allCommitDates
-class(allCommitDates)
+
 ```
 
 ### 2.5 
@@ -204,7 +205,8 @@ logicFromEcon
 請由transcriptData中選出"學號","學分數","必選修類別（必∕選∕通）"變數（使用`[.]` extraction）並存成transcriptPartialData答案物件。（最後一行最忘了打答案物件）
 
 ```{r ans33}
-transcriptPartialData <- c(transcriptData[1],transcriptData[7],transcriptData[8])
+transcriptPartialData <-
+  transcriptData[c("學號","學分數","必選修類別（必∕選∕通）")] 
 transcriptPartialData
 ```
 
@@ -215,11 +217,13 @@ transcriptPartialData
 
 ```{r ans34}
 
-transcriptPartialDataEcon <- list("學號" = c(transcriptPartialData[1]),
-                                "學分數" = c(transcriptPartialData[2]),
-                        "必選修類別 (必/選/通)" =c(transcriptPartialData[3]))
-transcriptPartialDataEcon
+transcriptPartialDataEcon <- list(
+  學號=transcriptPartialData$學號[logicFromEcon],
+  學分數=transcriptPartialData$學分數[logicFromEcon],
+  "必選修類別（必∕選∕通）"=transcriptPartialData$`必選修類別（必∕選∕通）`[logicFromEcon]
+)
 
+transcriptPartialDataEcon
 
 ```
 
