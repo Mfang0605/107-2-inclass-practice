@@ -69,4 +69,24 @@ m
 toupper(m) # 轉成大寫
 m
 ```
+```{r}
+matObji 
+matObji[c(3),c(2,4,4,1)]
+matObji[c(T,F,F,T),c(F,T,T,T)]
+```
+```{r}
+library(readr)
+classSurvey <- read_csv("https://raw.githubusercontent.com/tpemartin/github-data/master/classSurvey.csv")
+```
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
 
