@@ -57,11 +57,12 @@ demand_supply_fun(2,1,1,2,1)
 
 #依條件執行
 ```{r}
-a <- readline(prompt = "請輸入一個數字： ")
+a <-  readline(prompt = "請輸入一個數字： ")
 if(a < 0) {
   print("a為負值")
+} else {
+  print("a不為負值")
 }
-
 ```
 
 ```{r}
