@@ -181,4 +181,17 @@ logiChosenstudent <- transcriptDataFinal$學號 == "92aS67fee"
 sum(transcriptDataFinal$學期成績[logiChosenstudent] * transcriptDataFinal$學分數[logiChosenstudent]) / sum(transcriptDataFinal$學分數[transcriptDataFinal$學期成績]) -> GPA
 GPA
 ```
+```{r}
+b2 <- list(
+  元素1=c(1,4,9),
+  元素2=c("Hello"),
+  元素3=c(T,T,F,F,F,T,T)
+)
+b2
+b2[c(2,4)] <- list(
+  c("Hi","How are you?"),
+  c(-1,-2)
+)
+b2
+```
 
