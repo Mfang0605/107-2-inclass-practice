@@ -73,10 +73,13 @@ commitHistory <- content(GET("https://api.github.com/repos/r-hub/cranlogs/commit
 
 ```{r ans102}
 # df_commit
-df_commit <- data.frame(author = c(commitHistory[[10]][["commit"]][["author"]]),
-                commiter = c(commitHistory[[10]][["commit"]][["committer"]]),
-        commitDate = c(commitHistory[[10]][["commit"]][["committer"]][["date"]]),
-              sha = c(commitHistory[[10]][["sha"]]),stringsAsFactors = F)
+df_commit <- data.frame(
+  author=oneCommitRecord$commit$author$name,
+  commiter=oneCommitRecord$commit$committer$name,
+  commitDate=oneCommitRecord$commit$committer$date,
+  sha=oneCommitRecord$sha,
+  stringsAsFactors = F
+)
 df_commit
 ```
 
@@ -85,13 +88,17 @@ df_commit
 ```{r ans103}
 # commit_df_fun
 commit_df_fun <- function(oneCommitRecord){
-  df_commit <- data.frame(author = c(oneCommitRecord[["commit"]][["author"]]),
-                commiter = c(oneCommitRecord[["commit"]][["committer"]]),
-        commitDate = c(oneCommitRecord[["commit"]][["committer"]][["date"]]),
-              sha = c(oneCommitRecord[["sha"]]),stringsAsFactors = F)
-   return(df_commit)
+  df_commit <- data.frame(
+    author=oneCommitRecord$commit$author$name,
+    commiter=oneCommitRecord$commit$committer$name,
+    commitDate=oneCommitRecord$commit$committer$date,
+    sha=oneCommitRecord$sha,
+    stringsAsFactors = F
+  )
+  return(df_commit)
 }
 commit_df_fun
+commit_df_fun(commitHistory[[22]])
 ```
 
 ### 1.4 產生完整data frame
@@ -174,7 +181,7 @@ df_validCommits$validCommit
 取出df_validCommits中commitDate落在星期一到三，小時在12到23間（含起迄）的子樣本，存在data frame class的答案物件df_validCommitsSubsample中，最後一行打df_validCommitsSubsample。
 ```{r ans112}
 # df_validCommitsSubsample
-df_validCommitsSubsample <- data.frame(df_validCommits$validCommit)
+df_validCommitsSubsample <- data.frame(df_validCommits[df_validCommits$validCommit,])
 df_validCommitsSubsample
 ```
 
@@ -184,9 +191,11 @@ df_validCommitsSubsample
 
 ```{r ans113}
 # validCounts
-validCounts <- length(unique(df_validCommits$date))
+validCounts <- length(unique(df_validCommitsSubsample[,"date"]))
 class(validCounts)
 validCounts
+
+
 ```
 
 ### 1.14 不重覆有效commit次數查詢函數
@@ -232,22 +241,26 @@ valid_commit_count <- function(username,reponame,wday,startHour,endHour){
 ```{r ans114}
 # valid_commit_count
 valid_commit_count <- function(username,reponame,wday,startHour,endHour){
-  commitHistory <- content(GET("https://api.github.com/repos/ username/ reponame/commits"))
+str_c("https://api.github.com/repos",username,reponame,"commits",
+        sep = "/") -> urlInput
+  commitHistory <- content(GET(urlInput))
   
-  validCounts <- data.frame(
-     df_allCommits = c(map_dfr(commitHistory,commit_df_fun)),
-     df_allCommits$samePerson = c(df_allCommits[[1]]== df_allCommits[[4]]),
-     df_validCommits = c(df_allCommits[samePerson,]),
-     df_validCommits$commitDate = c(ymd_hms(df_validCommits$commitDate ,tz ="Asia/Taipei")),
-     df_validCommits$hh = c(hour(df_validCommits$commitDate)),
-     df_validCommits$date = c(date(df_validCommits$commitDate)),
-     df_validCommits$weekday = c(as.integer(lubridate::wday(df_validCommits$commitDate))),
-     df_validCommits$validCommit = c(
-        (df_validCommits$weekday == wday) &                     (df_validCommits$hh >= startHour & df_validCommits$hh <= endHour)),
-     df_validCommitsSubsample = c(df_validCommits$validCommit),
-     validCounts = c(length(unique(df_validCommits$date))),stringsAsFactors = F
-  )
-      return(validCounts)
+  df_allCommits <- map_dfr(commitHistory,commit_df_fun)
+  df_allCommits$samePerson <- df_allCommits$author == df_allCommits$commiter
+  df_validCommits <- df_allCommits[df_allCommits$samePerson,]
+  df_validCommits$commitDate <- ymd_hms(df_validCommits$commitDate)
+  df_validCommits$commitDate <- with_tz(df_validCommits$commitDate,
+                                        tzone="Asia/Taipei")
+  df_validCommits$hh <- hour(df_validCommits$commitDate)
+  df_validCommits$date <- date(df_validCommits$commitDate)
+  df_validCommits$weekday <- wday(df_validCommits$commitDate) 
+  df_validCommits$validCommit <- (df_validCommits$weekday == wday &
+                                   df_validCommits$hh >=startHour &
+                                   df_validCommits$hh <=endHour )
+  df_validCommitsSubsample <- df_validCommits[df_validCommits$validCommit,c("date","weekday","hh")] 
+  validCounts <- length(unique(df_validCommitsSubsample[,"date"]))
+  
+    return(validCounts)
      
 }
 valid_commit_count("Mfang0605","107-2-inclass-practice",4,15,16)
