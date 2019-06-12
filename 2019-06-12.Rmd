@@ -89,3 +89,27 @@ for(i in seq_along(commitHistory)){
 }
 ```
 
+```{r}
+load(url("https://www.dropbox.com/s/qnz9paigf61yjus/commitHistory.Rda?raw=1"))
+
+```
+
+```{r}
+saveCommitAuthor <-
+  vector("character",length(commitHistory))
+commitHistory
+i<- 1
+commitHistory[[i]]$commit$author$name -> saveCommitAuthor[[i]]
+saveCommitAuthor
+```
+
+```{r}
+saveCommitAuthor <-
+  vector("character",length(commitHistory)) # 0.
+for(i in seq_along(commitHistory)){
+  commitHistory[[i]]$commit$author$name -> saveCommitAuthor[[i]]
+}
+
+saveCommitAuthor
+```
+
